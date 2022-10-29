@@ -1,0 +1,1 @@
+Only plate.jpg and plate2.jpg are supposed to work.
