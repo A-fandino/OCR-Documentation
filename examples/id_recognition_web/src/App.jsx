@@ -1,10 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "./index.css"
 import { blurARGB, dilate, invertColors} from "./filters.js"
+import Tesseract, { createWorker } from 'tesseract.js'
+
 const width = 500
 const height = 500
 
+
 export default function App() {
+
+    const worker = createWorker({
+        logger: m => console.log(m),
+    })
+    const convertImageToText = async () => {
+        await worker.load();
+        await worker.loadLanguage("eng");
+        await worker.initialize("eng");
+        const {
+          data: { text },
+        } = await worker.recognize(myCanvas.ref);
+        setResult(text);
+      };
 
     const [treshVal, setTreshVal] = useState(.5)
     const myVideo = useRef()
@@ -15,7 +31,7 @@ export default function App() {
         dilate: true,
         blur: true
     })
-    const [play, setPlay] = useState(true)
+    const [play, setPlay] = useState(false)
 
     const [result, setResult] = useState("")
 
@@ -31,7 +47,7 @@ export default function App() {
 
     useEffect(() =>  {
         if (myVideo.current) {
-            setupVideo()
+            setupVideo();
             draw()
         }
     }, [])
@@ -39,17 +55,20 @@ export default function App() {
     useEffect(() => {
         if (play) {
             myVideo.current.play()
+            draw()
             return
         }
         myVideo.current.pause()
-    }, [play])
+        if (myCanvas.current) convertImageToText(myCanvas.current)
 
+    }, [play])
     function draw() {
+        if (myVideo.current?.paused) return false
         if (myCanvas.current) {
-            const ctx = myCanvas.current.getContext("2d")
+            const ctx = myCanvas.current.getContext("2d",  {willReadFrequently:true})
             ctx.clearRect(0,0,width,height)
             ctx.drawImage(myVideo.current,0,0,width,height)
-            ctx.rect(width/4, height/4, width/2, height/2)
+            // ctx.rect(width/4, height/4, width/2, height/2)
             const processedImage = ctx.getImageData(0,0,width,height)
             
             if (config.current.blur) blurARGB(processedImage.data, myCanvas.current, 1);
@@ -60,8 +79,8 @@ export default function App() {
             // for (let i = 1; i<20; i++) {
             //     ctx.rect(width/4, height/4, width/i, height/i)
             // }
-
             ctx.stroke()
+
         }
         requestAnimationFrame(draw)
     }
@@ -89,16 +108,16 @@ export default function App() {
                 <video  ref={myVideo} width={width} height={height}></video>
                 <canvas ref={myCanvas} width={width} height={height}></canvas>  
             </section>
-            <section class="button-panel">
-                <span className="play-pause" onClick={() => setPlay(curr => !curr)}>{play? "⏸️":"▶️"}</span>
+            <section className="button-panel">
+                <span className="play-pause" onClick={() => setPlay(curr => !curr)}>{play? "📷":"▶️"}</span>
                 <div style={{display:"flex", flexDirection:"column"}}>
                     <label htmlFor="threshold">Threshold ({treshVal})</label>
-                    <input ref={myBar} type="range" id="threshold" defaultValue=".5" value={treshVal} onChange={e => setTreshVal(parseFloat(e.target.value))} min="0" max="1" step=".05"/>
+                    <input ref={myBar} type="range" id="threshold" value={treshVal} onChange={e => setTreshVal(parseFloat(e.target.value))} min="0" max="1" step=".05"/>
                     {
                         Object.keys(config.current).map(el => (
-                        <span>
+                        <span key={el}>
                         <label htmlFor={el}>{el}</label>
-                        <input id={el} key={el} type="checkbox" name={el} defaultChecked={config.current[el]} onChange={e => config.current[e.target.name] = e.target.checked}/>
+                        <input id={el} type="checkbox" name={el} defaultChecked={config.current[el]} onChange={e => config.current[e.target.name] = e.target.checked}/>
                         </span>
                         )
                     )
@@ -106,7 +125,7 @@ export default function App() {
                 </div>
             </section>
             <section>
-                Result: {result}
+                Result: <code>{result}</code>
             </section>
         </div>
     )
