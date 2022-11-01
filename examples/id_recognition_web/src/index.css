@@ -2,9 +2,32 @@
     font-family: Roboto, sans-serif;
 }
 
+* {
+    box-sizing:border-box;
+}
+
 #container {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    align-items: flex-start;
+    align-items: center;
+}
+
+.play-pause {
+    font-size: 2rem;
+}
+
+.play-pause:hover {
+    opacity: 0.6;
+}
+
+.button-panel {
+    display:flex;
+    gap: 5px;
+    background-color:darkgray;
+    border-radius: 3px;
+    padding: .5rem;
+    min-width: 300px;
+    max-width:100%;
+    justify-content: space-evenly;
 }

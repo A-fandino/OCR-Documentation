@@ -6,10 +6,19 @@ const height = 500
 
 export default function App() {
 
+    const [treshVal, setTreshVal] = useState(.5)
     const myVideo = useRef()
     const myCanvas = useRef()
     const myBar = useRef()
-    const [treshVal, setTreshVal] = useState(.5)
+    const config = useRef({
+        invert: true,
+        dilate: true,
+        blur: true
+    })
+    const [play, setPlay] = useState(true)
+
+    const [result, setResult] = useState("")
+
     const setupVideo = async () => {
         try {
             const mediaStream = await navigator.mediaDevices.getUserMedia({video:{width, height, facingMode:"user"}, audio:false})
@@ -27,19 +36,26 @@ export default function App() {
         }
     }, [])
 
+    useEffect(() => {
+        if (play) {
+            myVideo.current.play()
+            return
+        }
+        myVideo.current.pause()
+    }, [play])
+
     function draw() {
         if (myCanvas.current) {
             const ctx = myCanvas.current.getContext("2d")
             ctx.clearRect(0,0,width,height)
             ctx.drawImage(myVideo.current,0,0,width,height)
             ctx.rect(width/4, height/4, width/2, height/2)
-            // ctx.filter = "grayscale(1)"
             const processedImage = ctx.getImageData(0,0,width,height)
             
-            // blurARGB(processedImage.data, myCanvas.current, 1);
-            // dilate(processedImage.data, myCanvas.current);
-            // invertColors(processedImage.data);
-            thresholdFilter(processedImage.data, myBar.current.value);
+            if (config.current.blur) blurARGB(processedImage.data, myCanvas.current, 1);
+            if (config.current.dilate) dilate(processedImage.data, myCanvas.current);
+            if (config.current.invert) invertColors(processedImage.data);
+            if (myBar.current.value > 0) thresholdFilter(processedImage.data, myBar.current.value);
             ctx.putImageData(processedImage,0,0)
             // for (let i = 1; i<20; i++) {
             //     ctx.rect(width/4, height/4, width/i, height/i)
@@ -61,18 +77,37 @@ export default function App() {
             const gray = 0.2126 * r + 0.7152 * g + 0.0722 * b;
             let val = 0;
             if (gray >= thresh) {
-              val = 255;
+                val = 255;
             }
             pixels[i] = pixels[i + 1] = pixels[i + 2] = val;
         }
     }
 
-  return (
-    <div id="container">
-        <video style={{display:"none"}} ref={myVideo} width={width} height={height}></video>
-        <canvas ref={myCanvas} width={width} height={height}></canvas>
-        <label htmlFor="threshold">Threshold ({treshVal})</label>
-        <input ref={myBar} type="range" id="threshold" defaultValue=".5" value={treshVal} onChange={e => setTreshVal(parseFloat(e.target.value))} min="0" max="1" step=".05"/>
-    </div>
-  )
+    return (
+        <div id="container">
+            <section>
+                <video  ref={myVideo} width={width} height={height}></video>
+                <canvas ref={myCanvas} width={width} height={height}></canvas>  
+            </section>
+            <section class="button-panel">
+                <span className="play-pause" onClick={() => setPlay(curr => !curr)}>{play? "⏸️":"▶️"}</span>
+                <div style={{display:"flex", flexDirection:"column"}}>
+                    <label htmlFor="threshold">Threshold ({treshVal})</label>
+                    <input ref={myBar} type="range" id="threshold" defaultValue=".5" value={treshVal} onChange={e => setTreshVal(parseFloat(e.target.value))} min="0" max="1" step=".05"/>
+                    {
+                        Object.keys(config.current).map(el => (
+                        <span>
+                        <label htmlFor={el}>{el}</label>
+                        <input id={el} key={el} type="checkbox" name={el} defaultChecked={config.current[el]} onChange={e => config.current[e.target.name] = e.target.checked}/>
+                        </span>
+                        )
+                    )
+                    }
+                </div>
+            </section>
+            <section>
+                Result: {result}
+            </section>
+        </div>
+    )
 }
