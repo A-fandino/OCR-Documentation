@@ -1,3 +1,5 @@
+//💖 Code from: https://dev.to/mathewthe2/using-javascript-to-preprocess-images-for-ocr-1jc
+
 export function getARGB(data, i) {
   const offset = i * 4;
   return (
