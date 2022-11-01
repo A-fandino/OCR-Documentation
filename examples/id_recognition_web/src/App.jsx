@@ -77,7 +77,8 @@ export default function App() {
             if (myBar.current.value > 0) thresholdFilter(processedImage.data, myBar.current.value);
             myCtx.current.putImageData(processedImage,0,0)
             myCtx.current.stroke()
-            await convertImageToText(myCanvas.current)
+            // if (!reading.current) convertImageToText(myCanvas.current) // non-blocking
+            await convertImageToText(myCanvas.current) // blocking
 
         }
         requestAnimationFrame(draw)
