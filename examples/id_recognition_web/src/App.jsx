@@ -8,11 +8,12 @@ const height = 500
 
 
 export default function App() {
-
+    const reading = useRef(false)
     const worker = createWorker({
         logger: m => console.log(m),
     })
     const convertImageToText = async () => {
+        reading.current = true
         await worker.load();
         await worker.loadLanguage("eng");
         await worker.initialize("eng");
@@ -20,6 +21,7 @@ export default function App() {
           data: { text },
         } = await worker.recognize(myCanvas.current);
         setResult(text);
+        reading.current = false
       };
 
     const [treshVal, setTreshVal] = useState(.5)
@@ -31,7 +33,7 @@ export default function App() {
         dilate: true,
         blur: true
     })
-    const [play, setPlay] = useState(false)
+    const [play, setPlay] = useState(true)
 
     const [result, setResult] = useState("")
 
@@ -55,15 +57,15 @@ export default function App() {
     useEffect(() => {
         if (play) {
             myVideo.current.play()
-            draw()
+            // draw()
             return
         }
         myVideo.current.pause()
-        if (myCanvas.current) convertImageToText(myCanvas.current)
+        // if (myCanvas.current) convertImageToText(myCanvas.current)
 
     }, [play])
     function draw() {
-        if (myVideo.current?.paused) return false
+        // if (myVideo.current?.paused) return false
         if (myCanvas.current) {
             const ctx = myCanvas.current.getContext("2d",  {willReadFrequently:true})
             ctx.clearRect(0,0,width,height)
@@ -80,6 +82,7 @@ export default function App() {
             //     ctx.rect(width/4, height/4, width/i, height/i)
             // }
             ctx.stroke()
+            if (!reading.current) convertImageToText(myCanvas.current)
 
         }
         requestAnimationFrame(draw)
@@ -105,11 +108,11 @@ export default function App() {
     return (
         <div id="container">
             <section>
-                <video  ref={myVideo} width={width} height={height}></video>
+                <video  ref={myVideo} width={width} height={height} autoPlay={true}></video>
                 <canvas ref={myCanvas} width={width} height={height}></canvas>  
             </section>
             <section className="button-panel">
-                <span className="play-pause" onClick={() => setPlay(curr => !curr)}>{play? "📷":"▶️"}</span>
+                <span className="play-pause" onClick={() => setPlay(curr => !curr)}>{play? "⏸️":"▶️"}</span>
                 <div style={{display:"flex", flexDirection:"column"}}>
                     <label htmlFor="threshold">Threshold ({treshVal})</label>
                     <input ref={myBar} type="range" id="threshold" value={treshVal} onChange={e => setTreshVal(parseFloat(e.target.value))} min="0" max="1" step=".05"/>
