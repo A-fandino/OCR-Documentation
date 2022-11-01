@@ -8,6 +8,8 @@
 
 *OCR* is a way to extract text from an **image** 🖼️ in order to be used by a **machine/computer** 💻.
 
+They take images as INPUT and give text as output.
+
 ## 🛠️ Use cases
 
 - Convert documents to PDF
@@ -22,13 +24,40 @@
 
 ## ⛑️ How does it work
 
+
 ## 📸 Prepare the images
+
+OCR algorithms tend to be a bit *sensitive* so it's import to **preprocess** the images in order to get the desired output.
+
+To preprocess the image we can apply a variety of filters but there are a few things that have to be taken into account before:
+
+ - Lighting conditions
+ - Angle
+ - Text color
+ - Text constrast with the background
+ - Language and characters
+ - Typography
+
+
+
+## Clear the output
 ## ⌨️ Talk is cheap. Show me the code.
 
-### 
 ### Vehicle plate recognition
 
-**[Real product example](https://platerecognizer.com/)**
+A small and basic script that detects and reads vehicle plates. (Tested with Spain plates): [Code here](./examples/car_plates/)
+
+If you want to check a more polished product visit 
+**[this link](https://platerecognizer.com/)**.
+
+### Realtime text recognition
+
+A webapp that reads from the device's camera in realtime. 
+It lets the user configure the filters so the preprocessing can be adjusted to its needs. 
+
+[Try it]() 
+
+[Code here](./examples/id_recognition_web/)
 
 
 ## 📋 Summary
