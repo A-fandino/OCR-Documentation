@@ -5,7 +5,7 @@ import Tesseract, { createWorker } from 'tesseract.js'
 
 const width = 500
 const height = 500
-
+const MIN_CONFIDENCE = 40
 
 export default function App() {
     const reading = useRef(false)
@@ -18,7 +18,7 @@ export default function App() {
         await worker.loadLanguage("eng");
         await worker.initialize("eng");
         const {data} = await worker.recognize(myCanvas.current);
-        setResult({text: data.text, confidence:data.confidence});
+        setResult(data.confidence >= MIN_CONFIDENCE ? data : null);
         reading.current = false
       };
 
@@ -120,8 +120,7 @@ export default function App() {
                         <label htmlFor={el}>{el}</label>
                         <input id={el} type="checkbox" name={el} defaultChecked={config.current[el]} onChange={e => config.current[e.target.name] = e.target.checked}/>
                         </span>
-                        )
-                    )
+                        ))
                     }
                 </div>
             </section>
