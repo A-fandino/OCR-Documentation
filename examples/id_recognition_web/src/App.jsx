@@ -10,7 +10,7 @@ const MIN_CONFIDENCE = 40
 export default function App() {
     const reading = useRef(false)
     const worker = createWorker({
-        logger: m => console.log(m),
+        // logger: m => console.log(m),
     })
     const convertImageToText = async () => {
         reading.current = true
@@ -19,12 +19,13 @@ export default function App() {
         await worker.initialize("eng");
         const {data} = await worker.recognize(myCanvas.current);
         setResult(data.confidence >= MIN_CONFIDENCE ? data : null);
+        console.log(data)
         reading.current = false
       };
-
     const [treshVal, setTreshVal] = useState(.5)
     const myVideo = useRef()
     const myCanvas = useRef()
+    const myCtx = useRef()
     const myBar = useRef()
     const config = useRef({
         invert: true,
@@ -48,6 +49,7 @@ export default function App() {
     useEffect(() =>  {
         if (myVideo.current) {
             setupVideo();
+            myCtx.current = myCanvas.current.getContext("2d",  {willReadFrequently:true})
             draw()
         }
     }, [])
@@ -65,21 +67,16 @@ export default function App() {
     async function draw() {
         // if (myVideo.current?.paused) return false
         if (myCanvas.current) {
-            const ctx = myCanvas.current.getContext("2d",  {willReadFrequently:true})
-            ctx.clearRect(0,0,width,height)
-            ctx.drawImage(myVideo.current,0,0,width,height)
-            // ctx.rect(width/4, height/4, width/2, height/2)
-            const processedImage = ctx.getImageData(0,0,width,height)
+            myCtx.current.clearRect(0,0,width,height)
+            myCtx.current.drawImage(myVideo.current,0,0,width,height)
+            const processedImage = myCtx.current.getImageData(0,0,width,height)
             
             if (config.current.blur) blurARGB(processedImage.data, myCanvas.current, 1);
             if (config.current.dilate) dilate(processedImage.data, myCanvas.current);
             if (config.current.invert) invertColors(processedImage.data);
             if (myBar.current.value > 0) thresholdFilter(processedImage.data, myBar.current.value);
-            ctx.putImageData(processedImage,0,0)
-            // for (let i = 1; i<20; i++) {
-            //     ctx.rect(width/4, height/4, width/i, height/i)
-            // }
-            ctx.stroke()
+            myCtx.current.putImageData(processedImage,0,0)
+            myCtx.current.stroke()
             await convertImageToText(myCanvas.current)
 
         }
