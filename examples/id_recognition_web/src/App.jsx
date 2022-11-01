@@ -134,7 +134,19 @@ export default function App() {
                     <b>Confidence:</b>
                     <code>{result.confidence}%</code>
                 </span>
+                {
+                    result.symbols.map((b,i)=> {
+                    let {x0, x1, y0, y1} = b.bbox
+                    const canvasRect = myCanvas.current.getBoundingClientRect()
+                    const w = x1 - x0;
+                    const h = y1 - y0;
+                    x0 += canvasRect.left
+                    y0 += canvasRect.top
+                        return<div key={i} className='box' style={{left:x0, top: y0, width:w, height: h}}></div>
+                    })
+                }
             </section> : null}
+
         </div>
     )
 }
