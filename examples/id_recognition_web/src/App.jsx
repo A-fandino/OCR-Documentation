@@ -17,10 +17,8 @@ export default function App() {
         await worker.load();
         await worker.loadLanguage("eng");
         await worker.initialize("eng");
-        const {
-          data: { text },
-        } = await worker.recognize(myCanvas.current);
-        setResult(text);
+        const {data} = await worker.recognize(myCanvas.current);
+        setResult({text: data.text, confidence:data.confidence});
         reading.current = false
       };
 
@@ -35,7 +33,7 @@ export default function App() {
     })
     const [play, setPlay] = useState(true)
 
-    const [result, setResult] = useState("")
+    const [result, setResult] = useState(null)
 
     const setupVideo = async () => {
         try {
@@ -64,7 +62,7 @@ export default function App() {
         // if (myCanvas.current) convertImageToText(myCanvas.current)
 
     }, [play])
-    function draw() {
+    async function draw() {
         // if (myVideo.current?.paused) return false
         if (myCanvas.current) {
             const ctx = myCanvas.current.getContext("2d",  {willReadFrequently:true})
@@ -82,7 +80,7 @@ export default function App() {
             //     ctx.rect(width/4, height/4, width/i, height/i)
             // }
             ctx.stroke()
-            if (!reading.current) convertImageToText(myCanvas.current)
+            await convertImageToText(myCanvas.current)
 
         }
         requestAnimationFrame(draw)
@@ -127,9 +125,17 @@ export default function App() {
                     }
                 </div>
             </section>
-            <section>
-                Result: <code>{result}</code>
-            </section>
+            {result ? <section style={{display:"flex", gap:"2px", flexDirection:"column"}}>
+                <span>
+                    <b>Result:</b>
+                    <code>{result.text}</code>
+                </span>
+
+                <span>
+                    <b>Confidence:</b>
+                    <code>{result.confidence}%</code>
+                </span>
+            </section> : null}
         </div>
     )
 }
