@@ -39,3 +39,4 @@
  - https://www.necc.mass.edu/wp-content/uploads/accessible-media-necc/uncategorized/resources/What-is-OCR.pdf
  - https://scholar.harvard.edu/lingayas/presentations/optical-character-recognization
  - https://dsp.stackexchange.com/questions/8316/the-difference-between-bilateral-filter-and-gaussian-filter
+ - https://dev.to/mathewthe2/using-javascript-to-preprocess-images-for-ocr-1jc
