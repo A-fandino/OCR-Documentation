@@ -18,7 +18,7 @@ export default function App() {
         await worker.initialize("eng");
         const {
           data: { text },
-        } = await worker.recognize(myCanvas.ref);
+        } = await worker.recognize(myCanvas.current);
         setResult(text);
       };
 
