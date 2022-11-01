@@ -17,6 +17,9 @@ export default function App() {
         await worker.load();
         await worker.loadLanguage("eng");
         await worker.initialize("eng");
+        await worker.setParameters({
+            tessedit_char_whitelist: 'ABCDEFGHIJLKMNOPQRSTUVWXYZabcdefghijlkmnopqrstuvwxyz0123456789. ',
+          });
         const {data} = await worker.recognize(myCanvas.current);
         setResult(data.confidence >= MIN_CONFIDENCE ? data : null);
         console.log(data)
