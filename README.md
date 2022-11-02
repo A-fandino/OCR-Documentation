@@ -8,7 +8,7 @@
 
 *OCR* is a way to extract text from an **image** 🖼️ in order to be used by a **machine/computer** 💻.
 
-They take images as INPUT and give text as output.
+Those algorithms take images as INPUT and give text as OUTPUT.
 
 ## 🛠️ Use cases
 
@@ -20,28 +20,54 @@ They take images as INPUT and give text as output.
 - [Vehicle plate recognition]()***
 - Data storage **???** (Probably not ideal)
 
-## Types of OCR Algorithms
-
 ## ⛑️ How does it work
 
 
 ## 📸 Prepare the images
 
-OCR algorithms tend to be a bit *sensitive* so it's import to **preprocess** the images in order to get the desired output.
+OCR algorithms tend to be a bit *sensitive* so it's important to **preprocess** the images in order to get the desired output.
 
 To preprocess the image we can apply a variety of filters but there are a few things that have to be taken into account before:
 
  - Lighting conditions
- - Angle
- - Text color
+    - Is there enough light? Or too much?
+ - Perspective
+
+ We now could improve the image conditions so the image can be easier to read. 
+ 
+ Otherwise we can try to compensate those conditions with the next steps.
+
  - Text constrast with the background
  - Language and characters
  - Typography
+ - Image quality
 
-
+ Now that we know the conditions of the image we can apply some of the following filters:
+ - Binarization
+ - Inversion (Negative filter)
+ - Dilation
+ - Erosion
+ - Noise reduction
+    - Gaussian Blur
+    - Median Blur
+    - Bilateral Filtering
+ - Transformations
+    - Cropping: Manual or with **object detection**
+    - Rotation
+ - [More filters](https://medium.com/technovators/survey-on-image-preprocessing-techniques-to-improve-ocr-accuracy-616ddb931b76)
+ These techniques will help us get a more clear input, reducing the image noise and issolating the characters we want to read.
 
 ## Clear the output
+
+If things went right, we should have recieved an output from our image. *But is it what we expected?*
+
+
 ## ⌨️ Talk is cheap. Show me the code.
+
+All this theory is useless without applying it to the practice.
+So I have prepared a pair of projects to demostrate the capabilities (and limitations) of OCR:
+
+For these two I have used [Tesseract](https://github.com/tesseract-ocr/tesseract)
 
 ### Vehicle plate recognition
 
@@ -53,7 +79,7 @@ If you want to check a more polished product visit
 ### Realtime text recognition
 
 A webapp that reads from the device's camera in realtime. 
-It lets the user configure the filters so the preprocessing can be adjusted to its needs. 
+It lets the user configure the filters so the preprocessing can be adjusted to a variety of situations. 
 
 [Try it]() 
 
@@ -69,3 +95,4 @@ It lets the user configure the filters so the preprocessing can be adjusted to i
  - https://scholar.harvard.edu/lingayas/presentations/optical-character-recognization
  - https://dsp.stackexchange.com/questions/8316/the-difference-between-bilateral-filter-and-gaussian-filter
  - https://dev.to/mathewthe2/using-javascript-to-preprocess-images-for-ocr-1jc
+ - https://medium.com/technovators/survey-on-image-preprocessing-techniques-to-improve-ocr-accuracy-616ddb931b76
