@@ -24,7 +24,7 @@ jobs:
         run: cd examples/id_recognition_web
       
       - name: install dependencies
-        uses: npm ci
+        run: npm ci
       
       - name: build project
         run: npm run build
