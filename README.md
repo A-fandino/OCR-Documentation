@@ -4,7 +4,7 @@
 
 ## ❓ What is OCR?
 
->**O**ptical **C**haracter **R**ecognition
+```Optical Character Recognition```
 
 *OCR* is a way to extract text from an **image** 🖼️ in order to be used by a **machine/computer** 💻.
 
@@ -17,7 +17,7 @@ Those algorithms take images as INPUT and give text as OUTPUT.
 - [Real world translation](https://support.google.com/translate/answer/6142483?hl=en&co=GENIE.Platform%3DAndroid)
 - [Extract text from YouTube videos](https://chrome.google.com/webstore/detail/selectext-copy-text-from/gkkdmjjodidppndkbkhhknakbeflbomf?hl=en)
 - [Traffic Sign Recognition (TSR)](https://www.jdpower.com/cars/shopping-guides/what-is-traffic-sign-recognition)
-- [Vehicle plate recognition]()***
+- [Vehicle plate recognition](./examples/car_plates/)
 - Data storage **???** (Probably not ideal)
 
 ## ⛑️ How does it work
@@ -29,18 +29,18 @@ OCR algorithms tend to be a bit *sensitive* so it's important to **preprocess** 
 
 To preprocess the image we can apply a variety of filters but there are a few things that have to be taken into account before:
 
- - Lighting conditions
+ - 🔦 Lighting conditions
     - Is there enough light? Or too much?
- - Perspective
+ - 🖼️ Perspective
 
  We now could improve the image conditions so the image can be easier to read. 
  
  Otherwise we can try to compensate those conditions with the next steps.
 
- - Text constrast with the background
- - Language and characters
- - Typography
- - Image quality
+ - ☯️ Text constrast with the background
+ - 🔤 Language and characters
+ - 🖊️ Typography
+ - 🤳 Image quality
 
  Now that we know the conditions of the image we can apply some of the following filters:
  - Binarization
