@@ -61,6 +61,19 @@ To preprocess the image we can apply a variety of filters but there are a few th
 
 If things went right, we should have recieved an output from our image. *But is it what we expected?*
 
+### Confidence
+
+OCR algorithms and libraries usually return a list of characters/words and a cofidence percentaje for each one of those.
+
+We could throw up the results that have a small percentaje of confidence.
+
+### REGEX
+
+[Regular Expressions](https://www.regular-expressions.info/) are a way to find patterns in texts.
+
+This way we could find and/or remove patterns like:
+ - Multiple commas: ```/[,{2,}]/``` Matches: *,,* or *,,,,,*
+ - Plate formatting: ```/\d{4}\w?[A-Z]{3}/``` Matches: *0123 AAA* or *9999BCD*
 
 ## ⌨️ Talk is cheap. Show me the code.
 
@@ -96,3 +109,4 @@ It lets the user configure the filters so the preprocessing can be adjusted to a
  - https://dsp.stackexchange.com/questions/8316/the-difference-between-bilateral-filter-and-gaussian-filter
  - https://dev.to/mathewthe2/using-javascript-to-preprocess-images-for-ocr-1jc
  - https://medium.com/technovators/survey-on-image-preprocessing-techniques-to-improve-ocr-accuracy-616ddb931b76
+ - https://programminghistorian.org/en/lessons/cleaning-ocrd-text-with-regular-expressions
