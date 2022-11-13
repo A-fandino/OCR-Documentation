@@ -94,7 +94,7 @@ If you want to check a more polished product visit
 A webapp that reads from the device's camera in realtime. 
 It lets the user configure the filters so the preprocessing can be adjusted to a variety of situations. 
 
-[Try it]() 
+[Try it](https://a-fandino.github.io/OCR-Documentation/) 
 
 [Code here](./examples/id_recognition_web/)
 
