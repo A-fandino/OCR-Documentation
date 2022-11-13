@@ -25,10 +25,7 @@ jobs:
           node-version: ${{matrix.node-version}}
 
       - name: install dependencies
-        run: |
-          pwd
-          ls 
-          npm ci
+        run: npm ci
       
       - name: build project
         run: npm run build
