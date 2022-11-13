@@ -8,6 +8,9 @@ on:
 jobs:
   deploy:
       runs-on: ubuntu-22.04
+      defaults:
+        run:
+          working-directory: examples/id_recognition_web
 
       strategy:
         matrix:
@@ -20,9 +23,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{matrix.node-version}}
-      - name: move to web directory
-        run: cd examples/id_recognition_web
-      
+
       - name: install dependencies
         run: |
           pwd
