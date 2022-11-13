@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: ${{matrix.node-version}}
       - name: move to web directory
-        uses: cd examples/id_recognition_web
+        run: cd examples/id_recognition_web
       
       - name: install dependencies
         uses: npm ci
