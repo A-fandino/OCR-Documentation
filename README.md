@@ -20,9 +20,6 @@ Those algorithms take images as INPUT and give text as OUTPUT.
 - [Vehicle plate recognition](./examples/car_plates/)
 - Data storage **???** (Probably not ideal)
 
-## ⛑️ How does it work
-
-
 ## 📸 Prepare the images
 
 OCR algorithms tend to be a bit *sensitive* so it's important to **preprocess** the images in order to get the desired output.
