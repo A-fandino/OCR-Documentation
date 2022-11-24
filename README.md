@@ -101,10 +101,10 @@ It lets the user configure the filters so the preprocessing can be adjusted to a
 We've learned what is OCR, how can it be used and the uses we can apply to this technology.
 
 - [What is OCR?](#-what-is-ocr)
-- [Use cases](#-use-cases)
+- [Use cases](#%EF%B8%8F-use-cases)
 - [Prepare the images](#-prepare-the-images)
 - [Clear the output](#clear-the-output)
-- [Talk is cheap. Show me the code.](#talk-is-cheap-show-me-the-code)
+- [Talk is cheap. Show me the code.](#%EF%B8%8F-talk-is-cheap-show-me-the-code)
 
 # References
  - https://www.ibm.com/cloud/blog/optical-character-recognition
